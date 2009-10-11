@@ -28,7 +28,7 @@ int socket_send4(int s,const char *buf,int len,const char ip[4],uint16 port,char
         .cmsg_level = SOL_IP,
         .cmsg_type = IP_PKTINFO
       },
-        .ipi = {
+      .ipi = {
         .ipi_ifindex = 0,
       }
     };
