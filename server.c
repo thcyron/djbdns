@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "byte.h"
 #include "case.h"
 #include "env.h"
@@ -106,11 +107,11 @@ int main()
   buffer_putsflush(buffer_2,starting);
 
   for (;;) {
-    len = socket_recv4(udp53,buf,sizeof buf,ip,&port);
+    len = socket_recv4(udp53,buf,sizeof buf,ip,&port,NULL);
     if (len < 0) continue;
     if (!doit()) continue;
     if (response_len > 512) response_tc();
-    socket_send4(udp53,response,response_len,ip,port);
+    socket_send4(udp53,response,response_len,ip,port,NULL);
     /* may block for buffer space; if it fails, too bad */
   }
 }

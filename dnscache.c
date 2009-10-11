@@ -61,6 +61,7 @@ static struct udpclient {
   uint64 active; /* query number, if active; otherwise 0 */
   iopause_fd *io;
   char ip[4];
+  char dstip[4];
   uint16 port;
   char id[2];
 } u[MAXUDP];
@@ -78,7 +79,7 @@ void u_respond(int j)
   if (!u[j].active) return;
   response_id(u[j].id);
   if (response_len > 512) response_tc();
-  socket_send4(udp53,response,response_len,u[j].ip,u[j].port);
+  socket_send4(udp53,response,response_len,u[j].ip,u[j].port,u[j].dstip);
   log_querydone(&u[j].active,response_len);
   u[j].active = 0; --uactive;
 }
@@ -109,7 +110,7 @@ void u_new(void)
   x = u + j;
   taia_now(&x->start);
 
-  len = socket_recv4(udp53,buf,sizeof buf,x->ip,&x->port);
+  len = socket_recv4(udp53,buf,sizeof buf,x->ip,&x->port,x->dstip);
   if (len == -1) return;
   if (len >= sizeof buf) return;
   if (x->port < 1024) if (x->port != 53) return;
