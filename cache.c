@@ -188,7 +188,7 @@ int cache_init(unsigned int cachesize)
     x = 0;
   }
 
-  if (cachesize > 1000000000) cachesize = 1000000000;
+  if (cachesize > 4000000000) cachesize = 4000000000;
   if (cachesize < 100) cachesize = 100;
   size = cachesize;
 
